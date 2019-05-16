@@ -233,6 +233,7 @@ INT MessageLoop(HWND hwnd)
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
+	//try;
 
     DestroyWindow(hwnd);
 
