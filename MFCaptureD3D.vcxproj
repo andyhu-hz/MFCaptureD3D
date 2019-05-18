@@ -177,6 +177,7 @@
   <ItemGroup>
     <ClCompile Include="device.cpp" />
     <ClCompile Include="preview.cpp" />
+    <ClCompile Include="Process.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -184,7 +185,9 @@
     <ClInclude Include="device.h" />
     <ClInclude Include="MFCaptureD3D.h" />
     <ClInclude Include="preview.h" />
+    <ClInclude Include="Process.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Variable.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCaptureD3D.rc" />

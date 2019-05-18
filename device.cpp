@@ -13,6 +13,8 @@
 
 #include "MFCaptureD3D.h"
 #include "BufferLock.h"
+//#include "Variable.h"
+#include "Process.h"
 
 const DWORD NUM_BACK_BUFFERS = 2;
 
@@ -441,8 +443,11 @@ HRESULT DrawDevice::DrawFrame(IMFMediaBuffer *pBuffer)
 
 
     // Convert the frame. This also copies it to the Direct3D surface.
-    
-    m_convertFn(
+	
+	
+	
+
+   m_convertFn(
         (BYTE*)lr.pBits,
         lr.Pitch,
         pbScanline0,
@@ -450,7 +455,21 @@ HRESULT DrawDevice::DrawFrame(IMFMediaBuffer *pBuffer)
         m_width,
         m_height
         );
-
+	/*RGBQUAD *TmppDestPel = (RGBQUAD*)lr.pBits;*/
+	//viewNode.Dest = (BYTE*)lr.pBits; //* my try1;
+	//viewNode.width = m_width;
+	//viewNode.height = m_height;
+	/*Fun1(TmppDestPel, m_width, m_height);*/
+   {Process obj((RGBQUAD*)lr.pBits, m_width, m_height);
+   extern int flag;
+   if (flag != 0)
+	   switch (flag)
+	   {
+	   case -1: obj.Save(); flag = 0; break;
+	   case 1: obj.Nagation(); break;
+	   case 2: obj.Black_and_white(); break;
+	   }
+   }
     hr = pSurf->UnlockRect();
 
     if (FAILED(hr)) { goto done; }
@@ -461,7 +480,7 @@ HRESULT DrawDevice::DrawFrame(IMFMediaBuffer *pBuffer)
 
     if (FAILED(hr)) { goto done; }
 
-    hr = m_pDevice->ColorFill(pBB, NULL, D3DCOLOR_XRGB(0, 0, 0x80));
+    hr = m_pDevice->ColorFill(pBB, NULL, D3DCOLOR_XRGB(0, 0, 0));
 
     if (FAILED(hr)) { goto done; }
 
@@ -475,7 +494,7 @@ HRESULT DrawDevice::DrawFrame(IMFMediaBuffer *pBuffer)
 
     // Present the frame.
     
-    hr = m_pDevice->Present(NULL, NULL, NULL, NULL);
+    hr = m_pDevice->Present(NULL, NULL, NULL, NULL); // to display the image
     
 
 done:
@@ -674,6 +693,8 @@ void TransformImage_RGB32(
 // YUY2 to RGB-32
 //-------------------------------------------------------------------
 
+
+
 void TransformImage_YUY2(
     BYTE*       pDest,
     LONG        lDestStride,
@@ -683,6 +704,7 @@ void TransformImage_YUY2(
     DWORD       dwHeightInPixels
     )
 {
+	
     for (DWORD y = 0; y < dwHeightInPixels; y++)
     {
         RGBQUAD *pDestPel = (RGBQUAD*)pDest;
@@ -704,6 +726,7 @@ void TransformImage_YUY2(
         pSrc += lSrcStride;
         pDest += lDestStride;
     }
+	
 
 }
 
@@ -835,7 +858,7 @@ RECT    LetterBoxRect(const RECT& rcSrc, const RECT& rcDst)
     LONG top = rcDst.top + ((iDstHeight - iDstLBHeight) / 2);
 
     SetRect(&rc, left, top, left + iDstLBWidth, top + iDstLBHeight);
-
+	//?SetRect(&rc, 0, top, iDstWidth, top + iDstLBHeight);
     return rc;
 }
 
@@ -920,3 +943,4 @@ HRESULT GetDefaultStride(IMFMediaType *pType, LONG *plStride)
     }
     return hr;
 }
+

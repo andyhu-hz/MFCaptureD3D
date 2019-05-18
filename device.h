@@ -40,6 +40,7 @@ private:
 
     D3DPRESENT_PARAMETERS   m_d3dpp;
 
+	BYTE * try1;
     // Format information
     D3DFORMAT               m_format;
     UINT                    m_width;
@@ -74,4 +75,5 @@ public:
     // What video formats we accept
     BOOL     IsFormatSupported(REFGUID subtype) const;
     HRESULT  GetFormat(DWORD index, GUID *pSubtype)  const;
+	
 };

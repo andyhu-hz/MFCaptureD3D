@@ -11,8 +11,21 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
+
 #include "MFCaptureD3D.h"
 #include "resource.h"
+
+//void Nagative()
+//{
+//	RGBQUAD *pDestPel = (RGBQUAD*)viewNode.Dest; //? lr ? ? ;
+//	for (int i = 0; i < viewNode.height * viewNode.width; i++)
+//	{
+//		pDestPel[i].rgbBlue = ~pDestPel[i].rgbBlue;
+//		pDestPel[i].rgbGreen = ~pDestPel[i].rgbGreen;
+//		pDestPel[i].rgbRed = ~pDestPel[i].rgbRed;
+//	}
+//
+//}
 
 // Include the v6 common controls in the manifest
 #pragma comment(linker, \
@@ -37,6 +50,7 @@ struct ChooseDeviceParam
     UINT32      count;          // Number of elements in the array.
     UINT32      selection;      // Selected device, by array index.
 };
+
 
 
 
@@ -81,7 +95,7 @@ INT WINAPI wWinMain(HINSTANCE,HINSTANCE,LPWSTR,INT)
 {
     HWND hwnd = 0;
 
-    (void)HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
+    (void)HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0); //* allocate the memory
 
     if (InitializeApplication() && InitializeWindow(&hwnd))
     {
@@ -310,7 +324,7 @@ void OnSize(HWND hwnd, UINT /*state */, int cx, int cy)
 {
     if (g_pPreview)
     {
-        g_pPreview->ResizeVideo((WORD)cx, (WORD)cy);
+        g_pPreview->ResizeVideo((WORD)cx , (WORD)cy);
 
         InvalidateRect(hwnd, NULL, FALSE);
     }
@@ -323,13 +337,26 @@ void OnSize(HWND hwnd, UINT /*state */, int cx, int cy)
 // Handles WM_COMMAND messages
 //-------------------------------------------------------------------
 
-void OnCommand(HWND hwnd, int id, HWND /*hwndCtl*/, UINT /*codeNotify*/)
+void OnCommand(HWND hwnd, int id, HWND /*hwndCtl*/, UINT /*codeNotify*/) //*it's here
 {
     switch (id)
     {
+		extern int flag;
+
         case ID_FILE_CHOOSEDEVICE:
             OnChooseDevice(hwnd, TRUE);
             break;
+		case ID_FILE_SAVE:
+			flag = -1;
+			break;
+		case ID_VIEW_NAGATION:
+			flag = 1;
+			break;
+		case ID_VIEW_BLACK:
+			flag = 2;
+			break;
+			
+		
     }
 }
 
