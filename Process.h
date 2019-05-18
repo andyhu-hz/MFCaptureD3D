@@ -20,12 +20,12 @@
 extern int flag ;
 class Process
 {
-	 RGBQUAD * pframe;
+	RGBQUAD   * const pframe;
 	UINT width;
 	UINT height;
 public:
 	Process(RGBQUAD* p, UINT w, UINT h) :pframe(p), width(w), height(h) { ; }
-	Process() { ; }
+	
 	~Process() { ; }
 	void Nagation();
 	void Black_and_white();

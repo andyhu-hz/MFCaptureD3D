@@ -432,6 +432,7 @@ HRESULT DrawDevice::DrawFrame(IMFMediaBuffer *pBuffer)
     if (FAILED(hr)) { goto done; }
 
     // Get the swap-chain surface.
+	
     hr = m_pSwapChain->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pSurf);
 
     if (FAILED(hr)) { goto done; }
@@ -443,30 +444,34 @@ HRESULT DrawDevice::DrawFrame(IMFMediaBuffer *pBuffer)
 
 
     // Convert the frame. This also copies it to the Direct3D surface.
+	int v = 0;
 	
 	
 	
-
-   m_convertFn(
-        (BYTE*)lr.pBits,
-        lr.Pitch,
-        pbScanline0,
-        lStride,
-        m_width,
-        m_height
-        );
+		m_convertFn(
+			(BYTE*)lr.pBits,
+			lr.Pitch,
+			pbScanline0,
+			lStride,
+			m_width,
+			m_height
+		);
+		
+	
 	/*RGBQUAD *TmppDestPel = (RGBQUAD*)lr.pBits;*/
 	//viewNode.Dest = (BYTE*)lr.pBits; //* my try1;
 	//viewNode.width = m_width;
 	//viewNode.height = m_height;
 	/*Fun1(TmppDecstPel, m_width, m_height);*/
-   {Process obj((RGBQUAD*)lr.pBits, m_width, m_height);
+
+   {Process obj((RGBQUAD  * const)lr.pBits, m_width, m_height);
+ 
    extern int flag;
    if (flag != 0)
 	   switch (flag)
 	   {
-	   case -1: obj.Save(); flag = 0; break;
-	   case 1: obj.Nagation(); break;
+	   case -1:  obj.Save(); flag = 0; break;
+	   case 1: obj.Nagation();  break;
 	   case 2: obj.Black_and_white(); break;
 	   }
    }

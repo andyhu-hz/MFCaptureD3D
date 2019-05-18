@@ -204,7 +204,10 @@ HRESULT CPreview::OnReadSample(
 
             if (SUCCEEDED(hr))
             {
-                hr = m_draw.DrawFrame(pBuffer);
+					
+					hr = m_draw.DrawFrame(pBuffer);
+				
+				
             }
         }
     }

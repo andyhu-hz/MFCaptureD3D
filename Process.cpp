@@ -50,12 +50,17 @@ void SaveAsBmp(const char *fn, char *bgra, int w, int h)
 	out.write((char*)infoHead, 40);
 
 	//写数据
-	bgra += w * 4 * (h - 1);
+	/*bgra += w * 4 * (h - 1);
 	for (int i = 0; i < h; i++)
 	{
 		out.write(bgra, w * 4);
 		bgra -= w * 4;
-	}
+		
+	}*/
+	for (int i = w * h * 4 - 1; i >= 0; i--)
+		out << bgra[i];
+	
+	
 
 	out.close();
 }
@@ -70,6 +75,7 @@ void Process::Black_and_white()
 }
 void Process::Nagation()
 {
+	
 	for (int i = 0; i < width* height; i++)
 	{
 		pframe[i].rgbBlue = 255 -pframe[i].rgbBlue;
@@ -79,6 +85,7 @@ void Process::Nagation()
 }
 void Process::Save()
 {
+	
 	int w = width;
 	int h = height;
 	int i = 0, j = 0;
@@ -91,26 +98,12 @@ void Process::Save()
 	//修改图像数据
 	for (i = 0; i < w*h  ; i += 1)
 	{
-		data[4 * i] =  (pframe[i].rgbBlue);
-		data[4 * i + 1] = (pframe[i].rgbGreen) ;
-		data[4 * i + 2] = (pframe[i].rgbRed);
-		data[4 * i + 3] = pframe[i].rgbReserved;
+		data[4 * i] =  (pframe[i].rgbRed);
+		data[4 * i + 1] = (pframe[i].rgbBlue) ;
+		data[4 * i + 2] = (pframe[i].rgbGreen);
+		data[4 * i + 3] = 0;
 	}
-	//for (i = 0; i < h; i++)
-	//{
-	//	for (j = 0; j < w ; j++)
-	//	{
-	//		data[4 * j] = (pframe[j + i * w].rgbBlue);
-	//		data[4 * j + 1] = (pframe[j + i * w].rgbGreen);
-	//		data[4 * j + 2] = (pframe[j + i * w].rgbRed);
-	//		data[4 * j + 3] = 0;
-	//	}
-	//	/*for (int k = j; k < line_Width; k++)
-	//	{
-	//		data[4 * k] = data[4 * k + 1]= data[4 * k + 2]= data[4 * k + 3]=0;
 
-	//	}*/
-	//}
 	SaveAsBmp("test1.bmp", data, w, h);
 	free(data);
 }
