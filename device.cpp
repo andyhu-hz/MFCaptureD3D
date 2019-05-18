@@ -459,7 +459,7 @@ HRESULT DrawDevice::DrawFrame(IMFMediaBuffer *pBuffer)
 	//viewNode.Dest = (BYTE*)lr.pBits; //* my try1;
 	//viewNode.width = m_width;
 	//viewNode.height = m_height;
-	/*Fun1(TmppDestPel, m_width, m_height);*/
+	/*Fun1(TmppDecstPel, m_width, m_height);*/
    {Process obj((RGBQUAD*)lr.pBits, m_width, m_height);
    extern int flag;
    if (flag != 0)
